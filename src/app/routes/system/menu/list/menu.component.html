@@ -1,0 +1,85 @@
+<div class="search">
+    <div class="right">
+        <div class="left">
+            <button nz-button [nzType]="'primary'" (click)="clickShowAdd()">
+                <span>新增</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="tab">
+    <nz-table #nzTable [nzAjaxData]="_dataSet" [nzShowSizeChanger]="true" [nzLoading]="_loading" [nzTotal]="_total" [(nzPageIndex)]="_current"
+        (nzPageIndexChange)="refreshData()" [(nzPageSize)]="_pageSize" (nzPageSizeChange)="refreshData(true)"
+        [nzShowTotal]="true" [nzScroll]="{ y: 300 }" [nzBordered]="true" [nzSize]="'small'">
+        <ng-template #nzFixedHeader>
+            <thead nz-thead>
+                <tr>
+                    <th nz-th [nzWidth]="'40px'">
+                        <span>id</span>
+                    </th>
+                    <th nz-th [nzWidth]="'200px'">
+                        <span>名称</span>
+                    </th>
+                    <th nz-th [nzWidth]="'200px'">
+                        <span>英文名</span>
+                    </th>
+                    <th nz-th [nzWidth]="'200px'">
+                        <span>链接</span>
+                    </th>
+                    <th nz-th [nzWidth]="'50px'">
+                        <span>等级</span>
+                    </th>
+                    <th nz-th [nzWidth]="'100px'">
+                        <span>父级id</span>
+                    </th>
+                    <th nz-th [nzWidth]="'50px'">
+                        <span>排序</span>
+                    </th>
+                    <th nz-th [nzWidth]="'50px'">
+                        <span>状态</span>
+                    </th>
+                    <th nz-th [nzWidth]="'100px'">
+                        <span>创建时间</span>
+                    </th>
+                    <th nz-th [nzWidth]="'100px'">
+                        <span>创建人</span>
+                    </th>
+                    <th nz-th>
+                        <span>操作</span>
+                    </th>
+                </tr>
+            </thead>
+        </ng-template>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                <td nz-td>{{data.id}}</td>
+                <td nz-td>{{data.name}}</td>
+                <td nz-td>{{data.ename}}</td>
+                <td nz-td>{{data.url}}</td>
+                <td nz-td>{{data.level}}</td>
+                <td nz-td>{{data.pid}}</td>
+                <td nz-td>{{data.sort}}</td>
+                <td nz-td>{{data.status}}</td>
+                <td nz-td>{{data.createTime}}</td>
+                <td nz-td>{{data.createUserName}}</td>
+                <td nz-td>
+                    <button nz-button (click)="clickUpdateMenu(data)" [nzSize]="'small'" [nzType]="'dashed'">
+                        <span>编辑</span>
+                    </button>
+                    <button nz-button (click)="clickAddChildMenu(data)" [nzSize]="'small'" [nzType]="'dashed'">
+                        <span>添加子菜单</span>
+                    </button>
+                    <button (click)="clickDeleteMenu(data.id)" nz-button [nzSize]="'small'" [nzType]="'danger'">
+                        <span>删除</span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+<nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzFooter]="false" [nzMaskClosable]="true" [nzVisible]="isVisible"
+    [nzTitle]="'添加菜单'" [nzContent]="modalContent" (nzOnCancel)="isVisible=false">
+    <ng-template #modalContent>
+        <menu-add *ngIf="isVisible" [operation]="childOperation" (onVoted)="onListen($event)" [menu]="updateMenu"></menu-add>
+    </ng-template>
+</nz-modal>

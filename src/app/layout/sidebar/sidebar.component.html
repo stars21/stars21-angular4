@@ -1,0 +1,15 @@
+<div class="{{settings.layout.isCollapsed ? 'sidebar-min': 'sidebar'}}">
+    <ul nz-menu [nzMode]="'inline'" [nzTheme]="settings.layout" [nzInlineCollapsed]="settings.layout.isCollapsed">
+        <li nz-submenu *ngFor="let data of menus">
+            <span title>
+                <i class="anticon anticon-appstore"></i>
+                <span>{{data.name}}</span>
+            </span>
+            <ul>
+                <li nz-menu-item *ngFor="let item of data.children">
+                    <a [routerLink]="['/'+data.url+'/'+item.url]">{{item.name}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
